@@ -1,17 +1,15 @@
 FROM balenalib/rpi-raspbian:latest
 
-RUN set -x \
-    # Install ngrok Linux (ARM)
-    && apk add --no-cache curl \
-    && curl -Lo /ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip \
-    && unzip -o /ngrok.zip -d /bin \
-    && rm -f /ngrok.zip \
-    # Create non-root user.
-    && adduser -h /home/ngrok -D -u 6737 ngrok
+# Copy Bin Linux (ARM) ngrok
+COPY ./bin/ngrok /bin
+
+# Create non-root user.
+RUN adduser -h /home/ngrok -D -u 6737 ngrok
 
 # Add config script.
 COPY --chown=ngrok ngrok.yml /home/ngrok/.ngrok2/
 
+# Init ngrok config
 COPY entrypoint.sh /
 
 # Basic sanity check.
