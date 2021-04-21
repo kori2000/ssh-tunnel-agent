@@ -4,12 +4,16 @@
 Description=Tunneling Service ngrok
 After=network.target
 
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
 [Service]
 ExecStart=node /home/pi/workspace/ssh-tunnel-agent/src/server.js
-Restart=always
 WorkingDirectory=/home/pi/workspace/ssh-tunnel-agent
 StandardOutput=inherit
 StandardError=inherit
+Restart=on-failure
+RestartSec=15s
 
 [Install]
 WantedBy=multi-user.target
