@@ -43,7 +43,8 @@ ngrok.connect({
 })
 .catch( err => {
     console.error(err)
-    return new Error('ngrok Failed')
+    process.exit(1)
+    //return new Error('ngrok Failed')
 })
 
 // SSH TCP
@@ -59,25 +60,24 @@ ngrok_tcp.connect({
 })
 .catch( err => {
     console.error(err)
-    return new Error('ngrok Failed')
+    process.exit(1)
+    //return new Error('ngrok Failed')
 })
 
+// Default Route
+app.get(`${APPN}`, (req, res) => {
+    res.status(200)
+    res.setHeader('Content-Type', 'text/html')
 
-/*
- ****************************************
- *  Information for Health Monitor Tool
- *****************************************
-*/
+    return res.send(`HELLO`)
+})
 
 // Deliver SSH URL over API
-app.get(APPN + '/ssh', (req, res) => {
+app.get(`${APPN}ssh`, (req, res) => {
     res.status(200)
     res.setHeader('Content-Type', 'text/html')
-    return res.send(`[SSH URL] ${ssh_url}`)
-})
 
-app.get(APPN + '/', (req, res) => {
-    res.status(200)
-    res.setHeader('Content-Type', 'text/html')
-    return res.send('[GET] API is up and running...')
+    ssh_string = ssh_url.replace("tcp://", "").replace(":", " -p ")
+
+    return res.send(`${ssh_string}`)
 })
