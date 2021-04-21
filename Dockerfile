@@ -1,7 +1,5 @@
 FROM balenalib/rpi-raspbian:latest
 
-RUN [ "cross-build-start" ]
-
 RUN set -x \
     # Install ngrok Linux (ARM)
     && apk add --no-cache curl \
@@ -18,8 +16,6 @@ COPY entrypoint.sh /
 
 # Basic sanity check.
 RUN su ngrok -c 'ngrok --version'
-
-RUN [ "cross-build-end" ]
 
 USER ngrok
 
