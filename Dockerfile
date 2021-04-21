@@ -5,7 +5,7 @@ COPY ./bin/ngrok /bin
 
 # Create non-root user.
 #RUN adduser --home /home/ngrok -D -u 6737 ngrok
-RUN sudo useradd -d /home/ngrok -m -s/bin/bash \ -c FullName,Phone,OtherInfo ngrok && passwd ngrok
+RUN sudo useradd -d /home/ngrok -m -s/bin/bash -p ngrok
 
 # Add config script.
 COPY --chown=ngrok ngrok.yml /home/ngrok/.ngrok2/
