@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+[Unit]
+Description=Tunneling Service ngrok
+
+[Service]
+ExecStart=node /home/pi/workspace/ssh-tunnel-agent/src/server.js
+Restart=always
+RestartSec=10
+User=pi
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+
+[Install]
+WantedBy=multi-user.target
